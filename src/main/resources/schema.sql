@@ -9,7 +9,7 @@ CREATE table location (
     business_name VARCHAR(256) NOT NULL,
     street_address VARCHAR(128) NOT NULL,
     city VARCHAR(60),
-    state VARCHAR(40) ,
+    state VARCHAR(40),
     zip VARCHAR(20),
     phone varchar(30),
     PRIMARY KEY (location_id)
@@ -31,8 +31,10 @@ CREATE table breed (
     PRIMARY KEY (breed_id)
 );
 
-create table dog_breed(
-    dog_id INT NOT NULL,
+create table dog_breed
+(
+    dog_id   INT NOT NULL,
     breed_id INT NOT NULL,
-    FOREIGN KEY (dog_id) REFERENCES dog(dog_id) ON DELETE CASCADE,
-    FOREIGN KEY (breed_id) REFERENCES breed(breed_id) ON DELETE CASCADE
+    FOREIGN KEY (dog_id) REFERENCES dog (dog_id) ON DELETE CASCADE,
+    FOREIGN KEY (breed_id) REFERENCES breed (breed_id) ON DELETE CASCADE
+);
