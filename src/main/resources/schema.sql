@@ -9,7 +9,7 @@ CREATE table location (
     business_name VARCHAR(256) NOT NULL,
     street_address VARCHAR(128) NOT NULL,
     city VARCHAR(60),
-    state VARCHAR(40),
+state VARCHAR(40),
     zip VARCHAR(20),
     phone varchar(30),
     PRIMARY KEY (location_id)

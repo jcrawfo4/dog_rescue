@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.NoSuchElementException;
+
 @Service
 public class RescueService {
 
@@ -19,5 +21,16 @@ public class RescueService {
         Location databaseLocation = locationDao.save(location);
 
         return new LocationDto(databaseLocation);
+    }
+
+    @Transactional(readOnly = true)
+    public LocationDto getLocationById(Integer locationId) {
+        Location location = findLocationById(locationId);
+        return new LocationDto(location);
+    }
+
+    private Location findLocationById(Integer locationId) {
+        return locationDao.findById(locationId)
+                .orElseThrow(() -> new NoSuchElementException("Location with ID=" + locationId + " not found!"));
     }
 }

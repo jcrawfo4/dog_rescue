@@ -19,6 +19,7 @@ public class Location {
     private String zip;
     private String phone;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "location")
     private Set<Dog> dogs = new HashSet<>();
 }

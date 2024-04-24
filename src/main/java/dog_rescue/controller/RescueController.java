@@ -20,4 +20,10 @@ public class RescueController {
         log.info("Creating location {}", locationDto);
         return rescueService.saveLocation(locationDto);
     }
+
+    @GetMapping("/location/{locationId}")
+    public LocationDto getLocationById(@PathVariable Integer locationId){
+        log.info("Getting location by id {}", locationId);
+        return rescueService.getLocationById(locationId);
+    }
 }
