@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.jdbc.JdbcTestUtils;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public class RescueServiceTestSupport {
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -30,7 +33,7 @@ public class RescueServiceTestSupport {
     private LocationDto insertAddress2() {
 
         return new LocationDto(
-                2,
+                (int)2,
                 "Paws and Claws",
                 "456 Elm St",
                 "Othertown",
@@ -39,6 +42,15 @@ public class RescueServiceTestSupport {
                 "555-1234"
         );
     }
+    LocationDto updateAddress1 = new LocationDto(
+            (int)1,
+            "Darylls Doggy Daycare",
+            "123 E. Main St",
+            "Edwardsville",
+            "IL",
+            "12345",
+            "618-555-1212"
+    );
     //@formatter:on
 
     protected int rowsInLocationTable() {
@@ -59,6 +71,28 @@ public class RescueServiceTestSupport {
 
     protected LocationDto getLocationById(Integer locationId) {
         return rescueController.getLocationById(locationId);
+    }
+
+    protected List<LocationDto> retrieveAllLocations() {
+        return rescueController.retrieveAllLocations();
+    }
+    protected List<LocationDto> insertTwoLocations() {
+        LocationDto location1 = insertLocation(insertAddress1());
+        LocationDto location2 = insertLocation(insertAddress2());
+        return List.of(location1, location2);
+    }
+    protected List<LocationDto> sorted(List<LocationDto> lst) {
+        List<LocationDto> data = new LinkedList<>(lst);
+        data.sort((l1, l2) -> (int) l1.getLocationId()
+                .compareTo((int)l2.getLocationId() ));
+        return lst;
+    }
+
+    protected LocationDto updateLocation(LocationDto locationDto) {
+       return rescueController.updateLocation(locationDto.getLocationId(), locationDto);
+    }
+    protected LocationDto buildUpdateLocation() {
+        return updateAddress1;
     }
 
 }

@@ -8,6 +8,8 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
 
+import java.util.List;
+
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 
@@ -43,6 +45,29 @@ public class RescueControllerTest extends RescueServiceTestSupport {
         assertThat(rowsInLocationTable()).isOne();
     }
 
+    @Test
+    void testRetrieveAllLocations() {
+        //given: two locations in the location table
+        List<LocationDto> expected = insertTwoLocations();
+        //when: all locations are retrieved
+        List<LocationDto> actual = retrieveAllLocations();
+        Integer expectedSize = 2;
+        //then: the number of locations returned is what is expected
+        assertThat(sorted(actual)).isEqualTo(expected);
+        assertThat(rowsInLocationTable()).isEqualTo(expectedSize);
+    }
+
+    @Test
+    void testUpdateLocation() {
+        //given: a location in the update request
+        insertLocation(buildInsertLocation(1));
+        LocationDto expected = buildUpdateLocation();
+        //when: the location is updated
+        LocationDto actual = updateLocation(expected);
+        //then: the location in the location table is what is expected
+        assertThat(actual).isEqualTo(expected);
+        assertThat(rowsInLocationTable()).isOne();
+    }
 
 
 }
