@@ -26,5 +26,27 @@ public class DogController {
         return dogService.saveDog(dogDto);
     }
 
+    @GetMapping
+    public DogDto getDogById(@PathVariable Integer dogId){
+        log.info("getting dog by id: {}", dogId);
+        return dogService.getDogById(dogId);
+    }
+
+    @PutMapping("dog/{dogId}")
+    public DogDto updateDog(@PathVariable Integer dogId, @RequestBody DogDto dogDto){
+        dogDto.setDogId(dogId);
+        log.info("updating dog with id: {}");
+        return dogService.saveDog(dogDto);
+    }
+
+    @DeleteMapping
+    public void deleteDog(@PathVariable Integer dogId){
+        log.info("deleting dog with id: ", dogId);
+        dogService.deleteDog(dogId);
+    }
+
+
+
+
 
 }

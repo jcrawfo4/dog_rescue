@@ -6,9 +6,13 @@ import dog_rescue.dao.LocationDao;
 import dog_rescue.entity.Dog;
 import dog_rescue.entity.Location;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class DogService {
@@ -32,4 +36,43 @@ public class DogService {
         Dog databaseDog = dogDao.save(dog);
         return new DogDto(databaseDog);
     }
+
+    public DogDto getDogById(Integer dogId) {
+        Dog dog = findDogById(dogId);
+        return new DogDto(dog);
+    }
+
+    private Dog findDogById(Integer dogId) {
+        return dogDao.findById(dogId).orElseThrow();
+    }
+
+    public Map<String, String> deleteDog(Integer dogId) {
+        dogDao.deleteById(dogId);
+        return Map.of("message", "Student with id = "+ dogId+" deleted successfully.");
+    }
+
+    public DogDto updateDog(Integer dogId, DogDto dogDto){
+        dogDto.setDogId(dogId);
+        return saveDog(dogDto);
+    }
+
+    private Dog findOrCreateDog(Integer dogId, String name, Integer age) {
+        Dog dog;
+        if(Objects.isNull(dogId)){
+            Optional<Dog> dogOptional = dogDao.findByNameAndAge(name, age);
+            if(dogOptional.isPresent()){
+                throw new DuplicateKeyException("Dog with name = " + name+ "that is "+ age+ "years old already exists");
+            }
+            else{
+                dog = new Dog();
+            }
+        }
+        else{
+           dog = findDogById(dogId);
+        }
+        return dog;
+    }
+
+
+
 }
