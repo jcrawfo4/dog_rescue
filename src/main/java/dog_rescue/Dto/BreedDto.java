@@ -1,4 +1,4 @@
-package dog_rescue.controller.model;
+package dog_rescue.Dto;
 
 
 import dog_rescue.entity.Breed;

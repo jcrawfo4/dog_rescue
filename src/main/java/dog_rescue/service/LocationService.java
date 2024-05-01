@@ -1,21 +1,28 @@
 package dog_rescue.service;
 
-import dog_rescue.controller.model.LocationDto;
+import dog_rescue.Dto.DogDto;
+import dog_rescue.Dto.LocationDto;
+import dog_rescue.dao.DogDao;
 import dog_rescue.dao.LocationDao;
+import dog_rescue.entity.Dog;
 import dog_rescue.entity.Location;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
-public class RescueService {
+public class LocationService {
 
     @Autowired
     private LocationDao locationDao;
+
+    @Autowired
+    private DogDao dogDao;
 
     @Transactional(readOnly = false)
     public LocationDto saveLocation(LocationDto locationDto){
@@ -50,15 +57,12 @@ public class RescueService {
         return locationDtos;
     }
 
-    public List<Location> updateLocation(LocationDto locationDto) {
-        Location location = findLocationById(locationDto.getLocationId());
-        location.setBusinessName(locationDto.getBusinessName());
-        location.setStreetAddress(locationDto.getStreetAddress());
-        location.setCity(locationDto.getCity());
-        location.setState(locationDto.getState());
-        location.setZip(locationDto.getZip());
-        location.setPhone(locationDto.getPhone());
-        locationDao.save(location);
-        return (List<Location>) location;
+    @Transactional(readOnly = false)
+    public void deleteLocation(@PathVariable Integer locationId) {
+        Location location = findLocationById(locationId);
+        locationDao.delete(location);
     }
+
+
+
 }

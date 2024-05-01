@@ -1,7 +1,7 @@
 package dog_rescue.controller;
 
 import dog_rescue.DogRescueApplication;
-import dog_rescue.controller.model.LocationDto;
+import dog_rescue.Dto.LocationDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -69,5 +69,14 @@ public class RescueControllerTest extends RescueServiceTestSupport {
         assertThat(rowsInLocationTable()).isOne();
     }
 
+    @Test
+    void testDeleteLocation() {
+        //given: a location in the location table
+        LocationDto locationDto = insertLocation(buildInsertLocation(2));
+        //when: the location is deleted
+        deleteLocation(locationDto);
+        //then: the location is no longer in the location table
+        assertThat(rowsInLocationTable()).isZero();
+    }
 
 }

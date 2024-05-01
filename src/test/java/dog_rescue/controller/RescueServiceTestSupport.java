@@ -1,7 +1,6 @@
 package dog_rescue.controller;
 
-import dog_rescue.controller.RescueController;
-import dog_rescue.controller.model.LocationDto;
+import dog_rescue.Dto.LocationDto;
 import dog_rescue.entity.Location;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -15,7 +14,7 @@ public class RescueServiceTestSupport {
     private JdbcTemplate jdbcTemplate;
 
     @Autowired
-    private RescueController rescueController;
+    private LocationController locationController;
 
     public static final String LOCATION = "location";// @formatter:off
     //@formatter:off
@@ -61,7 +60,7 @@ public class RescueServiceTestSupport {
         Location location = locationDto.toLocation();
         LocationDto clone = new LocationDto(location);
         clone.setLocationId(null);
-        return rescueController.createLocation(clone);
+        return locationController.createLocation(clone);
     }
 
 
@@ -70,11 +69,11 @@ public class RescueServiceTestSupport {
     }
 
     protected LocationDto getLocationById(Integer locationId) {
-        return rescueController.getLocationById(locationId);
+        return locationController.getLocationById(locationId);
     }
 
     protected List<LocationDto> retrieveAllLocations() {
-        return rescueController.retrieveAllLocations();
+        return locationController.retrieveAllLocations();
     }
     protected List<LocationDto> insertTwoLocations() {
         LocationDto location1 = insertLocation(insertAddress1());
@@ -89,10 +88,14 @@ public class RescueServiceTestSupport {
     }
 
     protected LocationDto updateLocation(LocationDto locationDto) {
-       return rescueController.updateLocation(locationDto.getLocationId(), locationDto);
+       return locationController.updateLocation(locationDto.getLocationId(), locationDto);
     }
     protected LocationDto buildUpdateLocation() {
         return updateAddress1;
+    }
+
+    protected void deleteLocation(LocationDto locationDto) {
+        locationController.deleteLocation(locationDto.getLocationId());
     }
 
 }

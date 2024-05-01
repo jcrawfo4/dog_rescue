@@ -2,6 +2,7 @@
   "name": "Ralphy",
   "age": 4,
   "color": "brown and white",
+  "location_id": 1,
   "breeds": [
     {
       "name": "Poodle"
